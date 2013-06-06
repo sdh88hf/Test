@@ -3,17 +3,17 @@ Ext.define("app.user.account.searchGridAddBtn",{
 	alias : "widget.userAccountSearchGridAddBtn",
 	handler : function(){
 		var me = this;
-		//var parentGrid = me.findParentByType("grid");
+		var parentGrid = me.findParentByType("grid");
 		
 		Ext.create('Ext.Window', {
-	        title: 'Left Header, plain: true',
+	        title: '新增用户',
 	        width: 400,
-	        height: 200,
+	        height: 300,
 	        plain: true,
 	        layout: 'fit',
-	        items: {
-	            border: false
-	        }
+	        items: Ext.create("app.user.account.form",{
+	        	parentGrid : parentGrid
+	        })
 	    }).show();
 		
 		

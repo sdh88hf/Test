@@ -80,6 +80,20 @@ public class AccountService extends BaseService{
 	}
 	
 	/**
+	 * 保存单一用户
+	 * @param entity
+	 * @throws ServiceException
+	 */
+	public void save(Account entity) throws ServiceException{
+		
+		try {
+			accountDao.insert(entity);
+		} catch (Exception e) {
+			throwException(Constants.DAOEXCEPTIONTIP,e.getMessage());
+		}
+	}
+	
+	/**
 	 * 批量删除用户
 	 * @param ids
 	 */

@@ -96,6 +96,7 @@ public abstract class JsonBaseAction<T extends BaseEntity> extends
 	public String save(){
 		try {
 			addOrUpdEntity();
+			System.out.println("...");
 		} catch (ServiceException e) {
 			this.setSuccess(false);
 			this.setMsg(e.getMessage());

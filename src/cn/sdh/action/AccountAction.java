@@ -21,6 +21,7 @@ import cn.sdh.dwr.JavaCallJsByDwr;
 import cn.sdh.dwr.UserDwrCall;
 import cn.sdh.entity.Account;
 import cn.sdh.entity.Permission;
+import cn.sdh.entity.Role;
 import cn.sdh.service.AccountService;
 import cn.sdh.utils.MyJsonUtil;
 import cn.sdh.utils.SpringSecurityUtils;
@@ -66,13 +67,28 @@ public class AccountAction extends JsonBaseAction<Account> {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public void addOrUpdEntity() {
-		List<Account> accountList = MyJsonUtil.getObjectsByJson(getMsg(), Account.class);
-		
+		//List<Account> accountList = MyJsonUtil.getObjectsByJson(getMsg(), Account.class);
 		try {
-			accountService.saves(accountList);
+			if(getMsg()!=null&&!getMsg().isEmpty()){
+				String [] roles = getMsg().split(",");
+				
+				List<Role> roleList = new ArrayList<Role>();
+				
+				for(int i = 0;i<roles.length;i++){
+					Role r = new Role();
+					r.setId(Long.parseLong(roles[i].trim()));
+					
+					roleList.add(r);
+				}
+				
+				entity.setRoles(roleList);
+			}
+			
+			accountService.save(entity);
+			
+			entity = null;
 		} catch (ServiceException e) {
 			this.putResult(false, e.getMsg());
 		}
