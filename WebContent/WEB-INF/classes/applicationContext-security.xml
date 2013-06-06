@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:s="http://www.springframework.org/schema/security" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.0.xsd"
+	default-lazy-init="true">
+	
+	<!-- auto-config="false" 不使用spring默认的验证器 -->
+	<s:http auto-config="false" use-expressions="true" entry-point-ref="loginFormEntry">
+		<!-- 定义哪些链接不被过滤 -->
+		<s:intercept-url pattern="/login.jsp**" filters="none"/>
+		<s:intercept-url pattern="/common/**" filters="none"/>
+		<s:intercept-url pattern="/dwr/**" filters="none"/>
+		
+		<!-- 定义访问该链接需要的权限 isAuthenticated()其实就是让MyAccessDecisionManager类中的decide来控制 -->
+		<s:intercept-url pattern="/**" access="isAuthenticated()"/>
+		
+		<!-- 定义登陆拦截器 来验证登陆是否成功 -->
+		<s:custom-filter ref="customLoginForm" position="FORM_LOGIN_FILTER" />
+		<!-- 登出拦截器 -->
+		<s:custom-filter ref="customLogout" position="LOGOUT_FILTER" />
+		<!-- 核心拦截器 用来认证用的 -->
+		<s:custom-filter ref="mySecurityInterceptor" before="FILTER_SECURITY_INTERCEPTOR" />
+		
+		<!-- 如果用户存在 但是没有访问目标地址的权限将跳到该页面 -->
+		<s:access-denied-handler error-page="/common/accessDenied.jsp" />
+		
+		<s:session-management>
+			<s:concurrency-control max-sessions="1" error-if-maximum-exceeded="true"/>
+		</s:session-management>
+	</s:http>
+	
+	<!-- 认证管理器 给他指明了一个认证业务方法类 -->
+	<s:authentication-manager alias="authenticationManager">
+		<s:authentication-provider user-service-ref="myUserDetailsService">
+		</s:authentication-provider>
+	</s:authentication-manager>
+	
+	<!-- 配置认证的处理器 -->
+	<bean id="securityMetadataSource"
+		class="cn.sdh.audit.MyFilterInvocationSecurityMetadataSource"/>
+	
+	<!-- 认证的业务方法 -->
+	<bean id="myUserDetailsService" class="cn.sdh.audit.MyUserDetailsService"></bean>
+	
+	<!--认证处理器-->
+	<bean id="accessDecisionManager" class="cn.sdh.audit.MyAccessDecisionManager"></bean>
+	
+	<!-- 认证拦截器的配置 -->
+	<bean id="mySecurityInterceptor"
+		class="cn.sdh.audit.MyFilterSecurityInterceptor">
+		<property name="authenticationManager" ref="authenticationManager" />
+		<property name="securityMetadataSource" ref="securityMetadataSource" />
+		<property name="accessDecisionManager" ref="accessDecisionManager" />
+	</bean>
+	
+	<!-- 配置登陆参数 -->
+	<bean id="loginFormEntry"
+		class="org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint">
+		<property name="loginFormUrl" value="/login.jsp" />
+	</bean>
+	
+	<!-- 认证成功 -->
+	<bean id="authenticationSuccessHandler"
+		class="org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler">
+		<property name="defaultTargetUrl" value="/account!index.action" 
+			/>
+	</bean>
+
+	<!-- 认证失败 -->
+	<bean id="authenticationFailureHandler"
+		class="org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler">
+		<property name="defaultFailureUrl" value="/login.jsp?error=true" />
+	</bean>
+	
+	<!-- 登陆拦截器配置 -->
+	<bean id="customLoginForm"
+		class="cn.sdh.audit.MyUsernamePasswordAuthenticationFilter">
+		<constructor-arg name="defaultFilterProcessesUrl"
+			value="/userLogin" />
+		<property name="usernameParameter" value="userName" />
+		<property name="passwordParameter" value="password" />
+		<property name="authenticationManager" ref="authenticationManager" />
+		<property name="authenticationSuccessHandler" ref="authenticationSuccessHandler" />
+		<property name="authenticationFailureHandler" ref="authenticationFailureHandler" />
+	</bean>
+	
+	<!-- 登出拦截器配置 -->
+	<bean id="customLogout"
+		class="org.springframework.security.web.authentication.logout.LogoutFilter">
+		<constructor-arg name="logoutSuccessUrl" value="/login.jsp" />
+		<property name="filterProcessesUrl" value="/userLogout" />
+		<constructor-arg name="handlers">
+			<list>
+				<bean class="cn.sdh.audit.MySecurityContextLogoutHandler">
+				</bean>
+			</list>
+		</constructor-arg>
+	</bean>
+</beans>

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
+	<changeSet author="admin" id="role_permission-10001">
+        <createTable tableName="role_permission">  
+            <column name="id" type="bigint">  
+                <constraints nullable="false" primaryKey="true" />  
+            </column>  
+            <column name="perid" type="bigint" />
+            <column name="roleid" type="bigint" /> 
+        </createTable>
+        <insert tableName="role_permission">
+        	<column name="id" value="1"/>  
+            <column name="perid" value="1" />
+            <column name="roleid" value="1" /> 
+        </insert>
+        <insert tableName="role_permission">
+        	<column name="id" value="2"/>  
+            <column name="perid" value="101" />
+            <column name="roleid" value="1" /> 
+        </insert>
+        <insert tableName="role_permission">
+        	<column name="id" value="3"/>  
+            <column name="perid" value="102" />
+            <column name="roleid" value="1" /> 
+        </insert>
+        <insert tableName="role_permission">
+        	<column name="id" value="4"/>  
+            <column name="perid" value="1001" />
+            <column name="roleid" value="1" /> 
+        </insert>
+        <insert tableName="role_permission">
+        	<column name="id" value="5"/>  
+            <column name="perid" value="1002" />
+            <column name="roleid" value="1" /> 
+        </insert>
+        <insert tableName="role_permission">
+        	<column name="id" value="6"/>  
+            <column name="perid" value="1003" />
+            <column name="roleid" value="1" /> 
+        </insert>
+	</changeSet>
+
+	<changeSet author="admin" id="role_permission-10002">
+		<insert tableName="role_permission">
+        	<column name="id" value="7"/>  
+            <column name="perid" value="1021" />
+            <column name="roleid" value="1" /> 
+        </insert>
+        <insert tableName="role_permission">
+        	<column name="id" value="8"/>  
+            <column name="perid" value="1022" />
+            <column name="roleid" value="1" /> 
+        </insert>
+	</changeSet>
+	<changeSet author="admin" id="role_permission-10003">
+		<insert tableName="role_permission">
+        	<column name="id" value="9"/>  
+            <column name="perid" value="10211" />
+            <column name="roleid" value="1" /> 
+        </insert>
+        <insert tableName="role_permission">
+        	<column name="id" value="10"/>  
+            <column name="perid" value="10212" />
+            <column name="roleid" value="1" /> 
+        </insert>
+        <insert tableName="role_permission">
+        	<column name="id" value="11"/>  
+            <column name="perid" value="10213" />
+            <column name="roleid" value="1" /> 
+        </insert>
+	</changeSet>
+	
+	<changeSet author="admin" id="role_permission-10004">
+		<insert tableName="role_permission">
+        	<column name="id" value="12"/>  
+            <column name="perid" value="10214" />
+            <column name="roleid" value="1" /> 
+        </insert>
+	</changeSet>
+	
+	<changeSet author="admin" id="role_permission-10005">
+		<dropColumn tableName="role_permission" columnName="id"/> 
+	</changeSet>
+</databaseChangeLog>

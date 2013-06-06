@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dwr PUBLIC "-//GetAhead Limited//DTD Direct Web Remoting 3.0//EN" "http://getahead.org/dwr/dwr30.dtd">
+
+<dwr>
+	<allow>
+		<create creator="spring" javascript="UserDwrCall">
+			<param name="beanName" value="UserDwrCall" />
+			<include method="test2"/>
+		</create>
+		
+		<convert converter="hibernate3" match="com.kcb.model.*" />
+		<convert converter="array" match="[Z" />
+		<convert converter="array" match="[B" />
+		<convert converter="array" match="[S" />
+		<convert converter="array" match="[I" />
+		<convert converter="array" match="[J" />
+		<convert converter="array" match="[F" />
+		<convert converter="array" match="[D" />
+		<convert converter="array" match="[C" />
+		<convert converter="array" match="[L*" />
+		<convert converter="null" match="java.sql.Blob" />
+	</allow>
+
+</dwr> 

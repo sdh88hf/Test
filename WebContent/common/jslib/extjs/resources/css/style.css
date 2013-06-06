@@ -1,0 +1,165 @@
+/* header 的css */
+ul {
+	list-style-type: none;
+}
+
+code {
+	font-size: 100%;
+	color: #666;
+}
+
+body {
+	font-family: "微软雅黑", "黑体", Verdana, Arial, Helvetica, sans-serif !important;
+	color: #333;
+}
+
+div.rightmenu {
+	float: right;
+	margin-top: 15px;
+	margin-right: 10px;
+	color: black
+}
+
+div.rightmenu span {
+	
+}
+
+div.tablayout {
+	width: 100%;
+	margin: 10px 0 20px 10px;
+}
+
+ul.tablayout {
+	list-style-type: none;
+	width: 900px;
+	float: left;
+	background: url(pixel.gif) bottom left repeat-x;
+}
+
+ul.tablayout li {
+	margin: 0 2px 0 0;
+	float: left;
+}
+
+ul.tablayout a {
+	font-family: "微软雅黑", "黑体", Verdana, Arial, Helvetica, sans-serif;
+	float: left;
+	display: block;
+	padding: 4px 8px;
+	border: 1px solid #ccc;
+	border-bottom: 0;
+	color: #666;
+	background: #eee;
+	text-decoration: none;
+	font-weight: bold;
+}
+
+ul.tablayout a:hover {
+	background: #fff;
+}
+
+ul.tablayout a.active {
+	background: #fff;
+	padding-bottom: 5px;
+	cursor: default;
+}
+
+/** portal 的css **/
+#pcbms-msg {
+	background: #D1DDEF;
+	border: 1px solid #ACC3E4;
+	padding: 3px 15px;
+	font-weight: bold;
+	font-size: 13px;
+	position: absolute;
+	right: 0;
+	top: 0;
+}
+
+.x-border-layout-ct {
+	background: #DFE8F6;
+}
+
+.x-portal-body {
+	padding: 0 0 0 8px;
+}
+
+.x-portal .x-portal-column {
+	padding: 8px 8px 0 0;
+}
+
+.x-portal .x-panel-dd-spacer {
+	border: 2px dashed #99bbe8;
+	background: #f6f6f6;
+	border-radius: 4px;
+	-moz-border-radius: 4px;
+	margin-bottom: 10px;
+}
+
+.x-portlet {
+	margin-bottom: 10px;
+	padding: 1px;
+}
+
+.x-portlet .x-panel-body {
+	background: #fff;
+}
+
+.portlet-content {
+	padding: 10px;
+	font-size: 11px;
+}
+
+#app-options .portlet-content {
+	padding: 5px;
+	font-size: 12px;
+}
+
+
+.x-form-multiselect-body .x-boundlist .x-mask {
+    background: none;
+}
+
+.x-form-itemselector-body .x-form-item {
+    margin: 0;
+}
+
+.x-form-itemselector-top {
+    background-image: url(../icons/ux/top2.gif);
+}
+.x-form-itemselector-up {
+    background-image: url(../icons/ux/up2.gif);
+}
+.x-form-itemselector-add {
+    background-image: url(../icons/ux/right2.gif);
+}
+.x-form-itemselector-remove {
+    background-image: url(../icons/ux/left2.gif);
+}
+.x-form-itemselector-down {
+    background-image: url(../icons/ux/down2.gif);
+}
+.x-form-itemselector-bottom {
+    background-image: url(../icons/ux/bottom2.gif);
+}
+
+
+.settings {
+	background-image: url(../icons/folder_wrench.png);
+}
+
+.nav {
+	background-image: url(../icons/folder_go.png);
+}
+
+.info {
+	background-image: url(../icons/information.png);
+}
+
+/* 常用组件 的css */
+.searchbig{
+	background-image: url(../icons/search.gif);
+}
+.searchsmall{
+	background-image: url(../icons/search.png);
+}

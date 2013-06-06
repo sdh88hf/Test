@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+	<display-name>Test</display-name>
+  
+  	<!-- 加载初始文件 -->
+  	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>
+			classpath*:applicationContext.xml
+			classpath*:applicationContext-security.xml
+			classpath*:applicationContext-liqiubase.xml
+		</param-value>
+	</context-param>
+	
+	<!-- 将session的开启和关闭固定在action层 实现延迟加载 -->
+	<filter>
+		<filter-name>hibernateOpenSessionInViewFilter</filter-name>
+		<filter-class>org.springframework.orm.hibernate3.support.OpenSessionInViewFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>hibernateOpenSessionInViewFilter</filter-name>
+		<url-pattern>*.action</url-pattern>
+		<dispatcher>REQUEST</dispatcher>
+		<dispatcher>FORWARD</dispatcher>
+	</filter-mapping>
+	
+	<!-- SpringSecurity 拦截器 注意要配置在struts拦截器之前 -->
+	<filter>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<url-pattern>/*</url-pattern>
+		<dispatcher>REQUEST</dispatcher>
+		<dispatcher>FORWARD</dispatcher>
+	</filter-mapping>
+  	
+ 	<!-- struts核心拦截器 -->
+ 	<filter>
+		<filter-name>struts2Filter</filter-name>
+		<filter-class>org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter</filter-class>
+	</filter>
+	
+  	<!-- struts拦截切面 -->
+  	<filter-mapping>
+		<filter-name>struts2Filter</filter-name>
+		<url-pattern>*.action</url-pattern>
+		<dispatcher>REQUEST</dispatcher>
+		<dispatcher>FORWARD</dispatcher>
+	</filter-mapping>
+  
+  	<!-- spring核心监听器 -->
+  	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+
+	<!-- Spring 刷新Introspector防止内存泄露 -->
+	<listener>
+		<listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>
+	</listener>
+	
+	
+	<servlet>
+		<servlet-name>dwr-invoker</servlet-name>
+		<servlet-class>
+			org.directwebremoting.servlet.DwrServlet
+			<!-- org.directwebremoting.spring.DwrSpringServlet -->
+		</servlet-class>
+		<init-param>
+			<param-name>debug</param-name>
+			<param-value>true</param-value>
+		</init-param>
+		<init-param>
+			<description>使用服务器推技术(反转AJAX)</description>
+			<param-name>activeReverseAjaxEnabled</param-name>
+			<param-value>true</param-value>
+		</init-param>
+		<init-param>
+			<param-name>
+				initApplicationScopeCreatorsAtStartup
+			</param-name>
+			<param-value>true</param-value>
+		</init-param>
+		<init-param>
+			<param-name>maxWaitAfterWrite</param-name>
+			<param-value>-1</param-value>
+		</init-param>
+
+		<init-param>
+			<param-name>config</param-name>
+			<param-value>/WEB-INF/classes/dwr.xml</param-value>
+		</init-param>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>dwr-invoker</servlet-name>
+		<url-pattern>/dwr/*</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>dwr-invoker</servlet-name>
+		<url-pattern>/Account*</url-pattern>
+	</servlet-mapping>
+	
+	
+	<!-- 监听在线用户 -->
+	<listener>
+		<listener-class>cn.sdh.common.listener.ActiveUserListener
+		</listener-class>
+	</listener>
+	
+	<session-config>
+		<session-timeout>60</session-timeout>
+	</session-config>
+	
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.htm</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>default.html</welcome-file>
+    <welcome-file>default.htm</welcome-file>
+    <welcome-file>default.jsp</welcome-file>
+  </welcome-file-list>
+</web-app>

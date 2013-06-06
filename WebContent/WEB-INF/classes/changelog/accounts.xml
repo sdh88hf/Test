@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
+	<changeSet author="admin" id="accounts-10001">
+		 <createTable tableName="accounts">  
+            <column name="id" type="bigint">  
+                <constraints nullable="false" primaryKey="true" />  
+            </column>  
+            <column name="username" type="varchar(32)" />
+            <column name="password" type="varchar(32)" /> 
+            <column name="email" type="varchar(32)" />
+            <column name="lastlogintime" type="datetime" />  
+        </createTable>
+        
+        <insert tableName="accounts">  
+            <column name="id" value="1" />  
+            <column name="username" value="admin" />  
+            <column name="password" value="123" />  
+            <column name="email" value="sdh88hf@163.com" />  
+        </insert> 
+	</changeSet>
+	
+	<changeSet author="admin" id="accounts-10002">
+		<createSequence sequenceName="SEQ_ACCOUNT"/>
+	</changeSet>
+	
+	<changeSet author="admin" id="accounts-10003">
+		<addColumn tableName="accounts">
+			<column name="usertype" type="int" defaultValue="-1"></column>
+		</addColumn>
+	</changeSet>
+
+</databaseChangeLog>

@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
+	<changeSet author="admin" id="permissions-10005">
+        <createTable tableName="permissions">  
+            <column name="id" type="bigint">  
+                <constraints nullable="false" primaryKey="true" />  
+            </column>  
+            <column name="name" type="varchar(32)" />
+            <column name="actionurl" type="varchar(256)" /> 
+            <column name="jsurl" type="varchar(256)" />
+            <column name="level" type="int" />
+            <column name="parentid" type="bigint"/>
+            <column name="ordernum" type="int" defaultValue="0"/>  
+        </createTable>
+        
+        <insert tableName="permissions">
+        	<column name="id" value="1"/>  
+            <column name="name" value="用户管理" />
+            <column name="level" value="1" />
+            <column name="parentid" value="-1"/>
+            <column name="ordernum" value="1"/>
+        </insert>
+        <insert tableName="permissions">
+        	<column name="id" value="101"/>  
+            <column name="name" value="账号管理" />
+            <column name="actionurl" value="account!query.action" /> 
+            <column name="jsurl" value="user/account/searchGrid" />
+            <column name="level" value="2" />
+            <column name="parentid" value="1"/>
+            <column name="ordernum" value="1"/>
+        </insert>
+        <insert tableName="permissions">
+        	<column name="id" value="102"/>  
+            <column name="name" value="角色管理" />
+            <column name="actionurl" value="" /> 
+            <column name="jsurl" value="user/role/mainPanel" />
+            <column name="level" value="2" />
+            <column name="parentid" value="1"/>
+            <column name="ordernum" value="2"/>
+        </insert>
+        <insert tableName="permissions">
+        	<column name="id" value="1001"/>  
+            <column name="name" value="新增" />
+            <column name="actionurl" value="account!save.action" /> 
+            <column name="jsurl" value="user/account/searchGridAddBtn" />
+            <column name="level" value="3" />
+            <column name="parentid" value="101"/>
+            <column name="ordernum" value="1"/>
+        </insert>
+        <insert tableName="permissions">
+        	<column name="id" value="1002"/>  
+            <column name="name" value="删除" />
+            <column name="actionurl" value="account!delete.action" /> 
+            <column name="jsurl" value="user/account/searchGridDeleteBtn" />
+            <column name="level" value="3" />
+            <column name="parentid" value="101"/>
+            <column name="ordernum" value="2"/>
+        </insert>
+        <insert tableName="permissions">
+        	<column name="id" value="1003"/>  
+            <column name="name" value="保存" />
+            <column name="actionurl" value="account!save.action" /> 
+            <column name="jsurl" value="user/account/searchGridSaveBtn" />
+            <column name="level" value="3" />
+            <column name="parentid" value="101"/>
+            <column name="ordernum" value="3"/>
+        </insert>
+	</changeSet>
+	
+	<changeSet author="admin" id="permissions-10008">
+		<insert tableName="permissions">
+        	<column name="id" value="1021"/>  
+            <column name="name" value="角色列表" />
+            <column name="actionurl" value="role!query.action" /> 
+            <column name="jsurl" value="user/role/searchGrid" />
+            <column name="level" value="2" />
+            <column name="parentid" value="102"/>
+            <column name="ordernum" value="1"/>
+        </insert>
+        <insert tableName="permissions">
+        	<column name="id" value="1022"/>  
+            <column name="name" value="权限列表" />
+            <column name="actionurl" value="permission!queryByRoleId.action" /> 
+            <column name="jsurl" value="user/permission/showTree" />
+            <column name="level" value="2" />
+            <column name="parentid" value="102"/>
+            <column name="ordernum" value="2"/>
+        </insert>
+	</changeSet>
+	
+	<changeSet author="admin" id="permissions-10007">
+		<insert tableName="permissions">
+        	<column name="id" value="10211"/>  
+            <column name="name" value="新增" />
+            <column name="actionurl" value="role!save.action" /> 
+            <column name="jsurl" value="user/role/searchGridAddBtn" />
+            <column name="level" value="3" />
+            <column name="parentid" value="1021"/>
+            <column name="ordernum" value="1"/>
+        </insert>
+        <insert tableName="permissions">
+        	<column name="id" value="10212"/>  
+            <column name="name" value="删除" />
+            <column name="actionurl" value="role!delete.action" /> 
+            <column name="jsurl" value="user/role/searchGridDeleteBtn" />
+            <column name="level" value="3" />
+            <column name="parentid" value="1021"/>
+            <column name="ordernum" value="2"/>
+        </insert>
+        <insert tableName="permissions">
+        	<column name="id" value="10213"/>  
+            <column name="name" value="保存" />
+            <column name="actionurl" value="role!save.action" /> 
+            <column name="jsurl" value="user/role/searchGridSaveBtn" />
+            <column name="level" value="3" />
+            <column name="parentid" value="1021"/>
+            <column name="ordernum" value="3"/>
+        </insert>
+	</changeSet>
+	
+	<changeSet author="admin" id="permissions-10011">
+		<insert tableName="permissions">
+        	<column name="id" value="10214"/>  
+            <column name="name" value="保存" />
+            <column name="actionurl" value="role!saveRolePermission.action" /> 
+            <column name="jsurl" value="user/permission/showTreeSaveBtn" />
+            <column name="level" value="3" />
+            <column name="parentid" value="1022"/>
+            <column name="ordernum" value="1"/>
+        </insert>
+	</changeSet>
+	
+	<changeSet author="admin" id="permissions-10013">
+		<insert tableName="permissions">
+        	<column name="id" value="2"/>  
+            <column name="name" value="应用工具" />
+            <column name="level" value="1" />
+            <column name="parentid" value="-1"/>
+            <column name="ordernum" value="2"/>
+        </insert>
+	</changeSet>
+	
+	<changeSet author="admin" id="permissions-10014">
+		<insert tableName="permissions">
+        	<column name="id" value="201"/>  
+            <column name="name" value="在线聊天" />
+            <column name="actionurl" value="im!query.action" /> 
+            <column name="jsurl" value="tool/im/mainPanel" />
+            <column name="level" value="2" />
+            <column name="parentid" value="2"/>
+            <column name="ordernum" value="1"/>
+        </insert>
+	</changeSet>
+</databaseChangeLog>
