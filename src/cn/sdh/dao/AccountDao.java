@@ -19,7 +19,7 @@ public class AccountDao extends HibernateDaoImpl<Account> {
 		Map<String, QueryParamEntity> querymap = new HashMap<String, QueryParamEntity>();
 		querymap.put("username", new QueryParamEntity("like","","%"));
 		querymap.put("email", new QueryParamEntity("like","%","%"));
-		
+		querymap.put("lastLoginTime", new QueryParamEntity("between(>=,<=)","lastLoginTime1","lastLoginTime2"));
 		
 		Map<String, Object> params  = getSearchParams(entity,querymap," and userType!=-1");
 		

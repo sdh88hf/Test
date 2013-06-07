@@ -842,11 +842,42 @@ public class HibernateDaoImpl<T extends BaseEntity> extends HibernateDaoSupport
 			String methodname = "get"+fieldname.substring(0,1).toUpperCase()+fieldname.substring(1);
 			
 			try {
+				//如果是区间查询
+				if(querymap.get(fieldname).getOptionSign().indexOf("between")>=0){
+					String lt = querymap.get(fieldname).getOptionSign().replace("between(","").replace(")", "");
+					
+					String [] ltarr = lt.split(",");
+					
+					methodname = "get"+querymap.get(fieldname).getBeforeSign().substring(0,1).toUpperCase()+querymap.get(fieldname).getBeforeSign().substring(1);
+					Method m1 = entity.getClass().getMethod(methodname,new Class[]{});
+					Object o1 =m1.invoke(entity, new Object[]{});
+					
+					if(o1!=null){
+						
+						builder.append(" and "+fieldname+ltarr[0]+":"+querymap.get(fieldname).getBeforeSign());
+						paramMap.put(querymap.get(fieldname).getBeforeSign(), o1);
+					}
+					
+					methodname = "get"+querymap.get(fieldname).getAfterSign().substring(0,1).toUpperCase()+querymap.get(fieldname).getAfterSign().substring(1);
+					Method m2 = entity.getClass().getMethod(methodname,new Class[]{});
+					Object o2 =m2.invoke(entity, new Object[]{});
+					
+					if(o2!=null){
+						
+						builder.append(" and "+fieldname+ltarr[1]+":"+querymap.get(fieldname).getAfterSign());
+						paramMap.put(querymap.get(fieldname).getAfterSign(), o2);
+					}
+					
+					continue;
+				}
+				
+				
 				Method m = entity.getClass().getMethod(methodname,new Class[]{});
 				
 				Object o =m.invoke(entity, new Object[]{});
 				
 				if(o!=null){
+					
 					if(clazz.indexOf("Long")>=0){
 						if(querymap.get(fieldname).getBeforeSign()==""&&querymap.get(fieldname).getAfterSign()==""){
 							paramMap.put(fieldname, Long.parseLong(querymap.get(fieldname).getBeforeSign()+o+querymap.get(fieldname).getAfterSign()));

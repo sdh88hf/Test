@@ -27,7 +27,7 @@ Ext.define("app.base.searchButton", {
 					var paramname = item.name;
 					if (item.getXType() == "datefield") {
 						var date = new Date(item.value);
-						queryParam[paramname] = date.getTime();
+						queryParam[paramname] = date;
 					} else {
 						queryParam[paramname] = item.getValue();
 					}
