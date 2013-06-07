@@ -57,7 +57,7 @@ public class HibernateDaoImpl<T extends BaseEntity> extends HibernateDaoSupport
 	 */
 	@Override
 	public void insert(T entity) {
-		getHibernateTemplate().save(entity);
+		getHibernateTemplate().merge(entity);
 	}
 
 	/**
@@ -66,7 +66,11 @@ public class HibernateDaoImpl<T extends BaseEntity> extends HibernateDaoSupport
 	 * @param entity
 	 */
 	public void save(T entity) {
-		getHibernateTemplate().update(entity);
+		if(entity!=null&&entity.getId()!=null){
+			insert(entity);
+		}else if(entity!=null){
+			getHibernateTemplate().save(entity);
+		}
 	}
 	
 	public void saveList(List<T> list){
@@ -818,7 +822,7 @@ public class HibernateDaoImpl<T extends BaseEntity> extends HibernateDaoSupport
 		getHibernateTemplate().flush();
 	}
 	
-	public Map<String, Object> getSearchParams(T entity,Map<String, QueryParamEntity> querymap){
+	public Map<String, Object> getSearchParams(T entity,Map<String, QueryParamEntity> querymap,String...hql){
 		Field[] fields = entity.getClass().getDeclaredFields();
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		
@@ -872,8 +876,14 @@ public class HibernateDaoImpl<T extends BaseEntity> extends HibernateDaoSupport
 			
 		}
 		
-		paramMap.put("listHql", LIST_HQL+builder.toString());
-		paramMap.put("countHql",COUNT_HQL+LIST_HQL+builder.toString());
+		for(int i = 0;i<hql.length;i++){
+			builder.append(hql[i]);
+		}
+		
+		String hqlstr = builder.toString();
+		
+		paramMap.put("listHql", LIST_HQL + hqlstr);
+		paramMap.put("countHql", COUNT_HQL+LIST_HQL + hqlstr);
 		
 		return paramMap;
 	}

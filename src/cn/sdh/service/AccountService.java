@@ -87,7 +87,7 @@ public class AccountService extends BaseService{
 	public void save(Account entity) throws ServiceException{
 		
 		try {
-			accountDao.insert(entity);
+			accountDao.save(entity);
 		} catch (Exception e) {
 			throwException(Constants.DAOEXCEPTIONTIP,e.getMessage());
 		}
@@ -107,6 +107,24 @@ public class AccountService extends BaseService{
 		} catch (Exception e) {
 			throwException(Constants.DAOEXCEPTIONTIP,e.getMessage());
 		}
+	}
+	
+	/**
+	 * 根据id查找用户
+	 * @param id
+	 * @return
+	 * @throws ServiceException
+	 */
+	public Account findById(Long id) throws ServiceException{
+		Account entity = null;
+		
+		try {
+			entity = accountDao.getEntityById(id);
+		} catch (Exception e) {
+			throwException(Constants.DAOEXCEPTIONTIP,e.getMessage());
+		}
+		
+		return entity;
 	}
 	
 	/**

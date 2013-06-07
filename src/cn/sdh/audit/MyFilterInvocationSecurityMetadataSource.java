@@ -59,7 +59,6 @@ public class MyFilterInvocationSecurityMetadataSource implements FilterInvocatio
 			}
 		}
 		
-		//现在我们直接 给他付一个 1的权限,也就是说无论什么链接都需要有1角色的用户才能访问注:这里的1实际指角色的id
 		Collection<ConfigAttribute> c = new HashSet<ConfigAttribute>();
 		
 		List<Permission> permissionList = null;
@@ -68,7 +67,8 @@ public class MyFilterInvocationSecurityMetadataSource implements FilterInvocatio
 				permissionList = MyCacheUtil.roles.get(i).getPermissionList();
 				
 				for(int j = 0;j<permissionList.size();j++){
-					if(requestUrl.equals(permissionList.get(j).getActionUrl())){
+					//因为一个操作可能需要多个连接权限
+					if(permissionList.get(j)!=null&&permissionList.get(j).getActionUrl()!=null&&permissionList.get(j).getActionUrl().indexOf(requestUrl)>=0){
 						ConfigAttribute configAttribute = new SecurityConfig(MyCacheUtil.roles.get(i).getId()+"");
 						c.add(configAttribute);
 						break;

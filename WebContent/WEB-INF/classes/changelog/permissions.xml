@@ -152,15 +152,16 @@
         </insert>
 	</changeSet>
 	
-	<changeSet author="admin" id="permissions-10015">
+	<changeSet author="admin" id="permissions-10017">
 		<insert tableName="permissions">
         	<column name="id" value="1004"/>  
             <column name="name" value="修改" />
-            <column name="actionurl" value="account!save.action" /> 
+            <column name="actionurl" value="account!save.action,account!find.action" /> 
             <column name="jsurl" value="user/account/searchGridUpdBtn" />
             <column name="level" value="3" />
             <column name="parentid" value="101"/>
             <column name="ordernum" value="1"/>
         </insert>
     </changeSet>
+    
 </databaseChangeLog>

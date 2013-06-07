@@ -51,7 +51,12 @@ public class AccountAction extends JsonBaseAction<Account> {
 	@Override
 	public void searchEntity() {
 		try {
-			entity = accountService.findByName(entity.getUsername());
+			if(entity.getId()>0){
+				entity = accountService.findById(entity.getId());
+			}else{
+				entity = accountService.findByName(entity.getUsername());
+			}
+			
 		} catch (ServiceException e) {
 			this.putResult(false, e.getMsg());
 		}

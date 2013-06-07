@@ -1,6 +1,5 @@
 package cn.sdh.dao;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,7 +10,6 @@ import cn.sdh.common.Page;
 import cn.sdh.common.base.HibernateDaoImpl;
 import cn.sdh.common.base.QueryParamEntity;
 import cn.sdh.entity.Account;
-import cn.sdh.entity.Role;
 
 @Repository
 public class AccountDao extends HibernateDaoImpl<Account> {
@@ -22,7 +20,9 @@ public class AccountDao extends HibernateDaoImpl<Account> {
 		querymap.put("username", new QueryParamEntity("like","","%"));
 		querymap.put("email", new QueryParamEntity("like","%","%"));
 		
-		Map<String, Object> params  = getSearchParams(entity,querymap);
+		
+		Map<String, Object> params  = getSearchParams(entity,querymap," and userType!=-1");
+		
 		
 		return queryPageListByHql(page, params.get("countHql")+"", params.get("listHql")+"", params);
 	}
@@ -39,23 +39,6 @@ public class AccountDao extends HibernateDaoImpl<Account> {
 		cond.put("username", username);
 		
 		return (Account) queryByHql(hql, cond);
-	}
-	
-	/***
-	 * 根据用户编号查询角色列表
-	 * @param userid
-	 * @return
-	 */
-	public List<Role> queryRolesById(Long userid){
-		
-		List<Role> list = new ArrayList<Role>();
-		
-		Role r = new Role();
-		r.setId(1L);
-		r.setRoleName("超级管理员");
-		list.add(r);
-		
-		return list;
 	}
 	
 	/**

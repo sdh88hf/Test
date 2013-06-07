@@ -5,7 +5,23 @@ Ext.define("app.user.account.form", {
 	saveAccount : function(){
 		var me = this;
 		
-		var params = me.getForm().getValues(true);
+		var datas = me.getForm().getValues();
+		
+		var roles = datas["roles"];
+		
+		var params = {};
+		
+		if(Ext.typeOf(roles)=='array'){
+			for(var i = 0;i<roles.length;i++){
+				params["entity.roles["+i+"].id"] = roles[i];
+			}
+		}else{
+			params["entity.roles[0].id"] = roles;
+		}
+		
+		if(me.dataid){
+			params["entity.id"] = me.dataid;
+		}
 		
 		me.getForm().submit({
 			waitMsg : '正在提交',
@@ -17,6 +33,31 @@ Ext.define("app.user.account.form", {
 				me.up("window").close();
 			}
 			
+		});
+		
+	},
+	//加载角色
+	loadRoles : function(){
+		var me = this;
+		Ext.Ajax.request({
+			url : 'role!query.action',
+			sync : true,
+			success : new app.ajaxHand({
+				success : function(result,scope) {
+					var datas = result.searchList;
+					
+					for(var i = 0;i<datas.length;i++){
+						me.getComponent("rolesgroup").add({
+							boxLabel: datas[i].roleName, name: 'roles',inputValue : datas[i].id
+						});
+					}
+					
+					if(me.loadById){
+						me.loadById();
+					}
+				}
+			})
+
 		});
 		
 	},
@@ -44,11 +85,11 @@ Ext.define("app.user.account.form", {
 			},{
 	            xtype: 'checkboxgroup',
 	            fieldLabel: '角色',
-	            itemId : 'roles',
+	            name : 'entity.roles',
+	            itemId : 'rolesgroup',
 	            columns: 2,
 	            items: [
-	                {boxLabel: '超级管理员', name: 'roles',inputValue : 1},
-	                {boxLabel: '董事长', name: 'roles',inputValue : 2}
+	                
 	            ]
 	        }],
 	        buttons : [{
@@ -59,9 +100,10 @@ Ext.define("app.user.account.form", {
 	        }]
 			
 		});
+		
+		me.loadRoles();
 
 		me.callParent();
 		
-		me.down()
 	}
 });
